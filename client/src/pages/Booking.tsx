@@ -26,8 +26,9 @@ export default function Booking() {
 
   useEffect(() => {
     if (formRef.current) {
+      const elements = Array.from(formRef.current.children);
       gsap.fromTo(
-        formRef.current.children,
+        elements,
         { opacity: 0, y: 40 },
         {
           opacity: 1,
@@ -95,14 +96,14 @@ export default function Booking() {
     <div className="min-h-screen pt-20">
       <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-24">
         <div ref={formRef}>
-          <div className="text-center mb-12 opacity-0">
+          <div className="text-center mb-12">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Book Your Private Journey</h1>
             <p className="text-base md:text-lg text-muted-foreground">
               Complete the form below and our team will create a personalized itinerary for you
             </p>
           </div>
 
-          <Card className="opacity-0">
+          <Card>
             <CardHeader>
               <CardTitle className="text-xl md:text-2xl">Flight Details</CardTitle>
             </CardHeader>

@@ -18,8 +18,9 @@ export default function Contact() {
 
   useEffect(() => {
     if (contentRef.current) {
+      const elements = Array.from(contentRef.current.children);
       gsap.fromTo(
-        contentRef.current.children,
+        elements,
         { opacity: 0, y: 40 },
         {
           opacity: 1,
@@ -49,7 +50,7 @@ export default function Contact() {
     <div className="min-h-screen pt-20">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-24">
         <div ref={contentRef}>
-          <div className="text-center mb-12 opacity-0">
+          <div className="text-center mb-12">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Get In Touch</h1>
             <p className="text-base md:text-lg text-muted-foreground">
               Our team is ready to assist you 24/7 with any inquiries
@@ -57,7 +58,7 @@ export default function Contact() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-            <div className="opacity-0">
+            <div>
               <Card className="hover-elevate transition-all">
                 <CardContent className="p-6 md:p-8">
                   <h2 className="font-serif text-2xl md:text-3xl font-bold mb-6">Send us a message</h2>
@@ -105,7 +106,7 @@ export default function Contact() {
               </Card>
             </div>
 
-            <div className="space-y-8 opacity-0">
+            <div className="space-y-8">
               <div>
                 <h2 className="font-serif text-2xl md:text-3xl font-bold mb-6">Our Global Offices</h2>
                 <div className="space-y-6">

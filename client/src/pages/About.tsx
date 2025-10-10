@@ -12,8 +12,9 @@ export default function About() {
 
   useEffect(() => {
     if (headerRef.current) {
+      const elements = Array.from(headerRef.current.children);
       gsap.fromTo(
-        headerRef.current.children,
+        elements,
         { opacity: 0, y: 40 },
         {
           opacity: 1,
@@ -37,13 +38,18 @@ export default function About() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: section,
-              start: "top 80%",
+              start: "top 90%",
+              end: "top 20%",
               toggleActions: "play none none none",
             },
           }
         );
       }
     });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   return (
@@ -51,17 +57,17 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-24">
         <section ref={headerRef} className="mb-20 md:mb-24">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 opacity-0">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               Our Story: Precision, Passion, and Private Aviation
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed opacity-0">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
               Founded on precision and passion, AirCambridge Jet redefines private aviation by merging
               world-class service with seamless travel experiences.
             </p>
           </div>
         </section>
 
-        <section ref={(el) => (sectionRefs.current[0] = el)} className="mb-20 md:mb-24 opacity-0">
+        <section ref={(el) => (sectionRefs.current[0] = el)} className="mb-20 md:mb-24">
           <div className="bg-card rounded-lg p-8 md:p-12 hover-elevate transition-all">
             <h2 className="font-serif text-3xl md:text-4xl font-bold mb-6">Our Mission</h2>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
@@ -72,7 +78,7 @@ export default function About() {
           </div>
         </section>
 
-        <section ref={(el) => (sectionRefs.current[1] = el)} className="mb-20 md:mb-24 opacity-0">
+        <section ref={(el) => (sectionRefs.current[1] = el)} className="mb-20 md:mb-24">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-12">Core Values</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             <div className="text-center hover-elevate p-6 rounded-lg transition-all">
@@ -106,7 +112,7 @@ export default function About() {
           </div>
         </section>
 
-        <section ref={(el) => (sectionRefs.current[2] = el)} className="mb-20 md:mb-24 opacity-0">
+        <section ref={(el) => (sectionRefs.current[2] = el)} className="mb-20 md:mb-24">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-12">
             Our Leadership
           </h2>
@@ -132,7 +138,7 @@ export default function About() {
           </div>
         </section>
 
-        <section ref={(el) => (sectionRefs.current[3] = el)} className="opacity-0">
+        <section ref={(el) => (sectionRefs.current[3] = el)}>
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-12">
             Connecting the World, Exclusively
           </h2>
