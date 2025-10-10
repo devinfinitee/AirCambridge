@@ -32,7 +32,9 @@ export default function Navigation() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "bg-foreground/98 backdrop-blur-md shadow-lg" : "bg-foreground/40 backdrop-blur-sm"
+        isScrolled 
+          ? "bg-foreground shadow-2xl" 
+          : "bg-foreground/90 backdrop-blur-md"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
@@ -47,13 +49,16 @@ export default function Navigation() {
             {navLinks.map((link) => (
               <Link key={link.path} href={link.path} data-testid={`link-${link.label.toLowerCase()}`}>
                 <span
-                  className={`text-sm font-medium transition-all cursor-pointer ${
+                  className={`text-sm font-semibold transition-all cursor-pointer relative group ${
                     location === link.path
                       ? "text-primary"
                       : "text-white hover:text-primary"
                   }`}
                 >
                   {link.label}
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all ${
+                    location === link.path ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}></span>
                 </span>
               </Link>
             ))}
@@ -61,7 +66,7 @@ export default function Navigation() {
 
           <Button
             variant="default"
-            className="hidden md:inline-flex"
+            className="hidden md:inline-flex font-semibold"
             data-testid="button-book-jet"
             asChild
           >
@@ -69,23 +74,25 @@ export default function Navigation() {
           </Button>
 
           <button
-            className="md:hidden text-white hover:text-primary transition-colors"
+            className="md:hidden text-white hover:text-primary transition-colors p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             data-testid="button-mobile-menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-foreground/98 backdrop-blur-md border-t border-white/10 animate-in slide-in-from-top duration-300">
-          <div className="px-4 py-4 space-y-3">
+        <div className="md:hidden bg-foreground border-t border-white/10 shadow-2xl animate-in slide-in-from-top duration-300">
+          <div className="px-4 py-6 space-y-4">
             {navLinks.map((link) => (
               <Link key={link.path} href={link.path}>
                 <div
-                  className={`block py-2 text-sm font-medium transition-colors ${
-                    location === link.path ? "text-primary" : "text-white hover:text-primary"
+                  className={`block py-3 px-4 rounded-lg text-sm font-semibold transition-all ${
+                    location === link.path 
+                      ? "text-primary bg-primary/10" 
+                      : "text-white hover:text-primary hover:bg-white/5"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -93,7 +100,7 @@ export default function Navigation() {
                 </div>
               </Link>
             ))}
-            <Button variant="default" className="w-full" asChild>
+            <Button variant="default" className="w-full font-semibold" size="lg" asChild>
               <Link href="/booking" onClick={() => setIsMobileMenuOpen(false)}>
                 Book a Jet
               </Link>
