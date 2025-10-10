@@ -26,11 +26,11 @@ export default function JetCard({
   onViewDetails,
 }: JetCardProps) {
   return (
-    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all" data-testid={`card-jet-${id}`}>
+    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all cursor-pointer group h-full flex flex-col" data-testid={`card-jet-${id}`}>
       <div className="aspect-video overflow-hidden">
-        <img src={image} alt={name} className="w-full h-full object-cover" />
+        <img src={image} alt={name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
       </div>
-      <CardContent className="p-6">
+      <CardContent className="p-6 flex-1 flex flex-col">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">
             {category}
@@ -54,12 +54,12 @@ export default function JetCard({
             <p className="text-sm font-semibold">{speed}</p>
           </div>
         </div>
-        <div className="border-t pt-4">
+        <div className="border-t pt-4 mt-auto">
           <p className="text-sm text-muted-foreground">Estimated Hourly Rate</p>
           <p className="text-2xl font-bold text-primary">${hourlyRate.toLocaleString()}</p>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="pt-0 pb-6 px-6">
         <Button
           variant="outline"
           className="w-full"

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 export default function Navigation() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -16,6 +16,11 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsMobileMenuOpen(false);
+  }, [location]);
+
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
@@ -26,16 +31,14 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-foreground/95 backdrop-blur-sm" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled ? "bg-foreground/98 backdrop-blur-md shadow-lg" : "bg-foreground/40 backdrop-blur-sm"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link href="/" data-testid="link-home">
-            <h1 className={`font-serif text-2xl md:text-3xl font-bold transition-colors ${
-              isScrolled ? "text-white" : "text-white"
-            }`}>
+            <h1 className="font-serif text-2xl md:text-3xl font-bold text-white cursor-pointer transition-all hover:text-primary">
               AirCambridge Jet
             </h1>
           </Link>
@@ -44,11 +47,9 @@ export default function Navigation() {
             {navLinks.map((link) => (
               <Link key={link.path} href={link.path} data-testid={`link-${link.label.toLowerCase()}`}>
                 <span
-                  className={`text-sm font-medium transition-colors cursor-pointer ${
+                  className={`text-sm font-medium transition-all cursor-pointer ${
                     location === link.path
                       ? "text-primary"
-                      : isScrolled
-                      ? "text-white hover:text-primary"
                       : "text-white hover:text-primary"
                   }`}
                 >
@@ -68,7 +69,7 @@ export default function Navigation() {
           </Button>
 
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-white hover:text-primary transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             data-testid="button-mobile-menu"
           >
@@ -78,7 +79,7 @@ export default function Navigation() {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-foreground/98 backdrop-blur-sm border-t border-white/10">
+        <div className="md:hidden bg-foreground/98 backdrop-blur-md border-t border-white/10 animate-in slide-in-from-top duration-300">
           <div className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
               <Link key={link.path} href={link.path}>

@@ -1,12 +1,17 @@
+import { useEffect, useRef } from "react";
 import HeroSlider from "@/components/HeroSlider";
 import QuickBookingWidget from "@/components/QuickBookingWidget";
 import FeatureCard from "@/components/FeatureCard";
 import JetCard from "@/components/JetCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import { Globe, Clock, Shield, Sparkles } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import jet1 from "@assets/stock_images/luxury_private_jet_e_68c499e9.jpg";
 import jet2 from "@assets/stock_images/luxury_private_jet_e_9a9496d7.jpg";
 import interior1 from "@assets/stock_images/luxury_private_jet_i_bec10afb.jpg";
+
+gsap.registerPlugin(ScrollTrigger);
 
 //todo: remove mock data
 const featuredJets = [
@@ -65,6 +70,30 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    sectionRefs.current.forEach((section, index) => {
+      if (section) {
+        gsap.fromTo(
+          section.querySelector("h2"),
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    });
+  }, []);
+
   return (
     <div className="min-h-screen">
       <HeroSlider />
@@ -72,14 +101,14 @@ export default function Home() {
       <div className="px-4 md:px-6 lg:px-8 pb-16 md:pb-24">
         <QuickBookingWidget />
 
-        <section className="max-w-7xl mx-auto mt-24">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-4">
+        <section ref={(el) => (sectionRefs.current[0] = el)} className="max-w-7xl mx-auto mt-20 md:mt-24">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 opacity-0">
             Why Fly AirCambridge
           </h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
             Experience the pinnacle of private aviation with uncompromising service and global reach
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             <FeatureCard
               icon={Globe}
               title="Global Coverage"
@@ -103,28 +132,28 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="max-w-7xl mx-auto mt-24">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-4">
+        <section ref={(el) => (sectionRefs.current[1] = el)} className="max-w-7xl mx-auto mt-20 md:mt-24">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 opacity-0">
             Featured Fleet
           </h2>
           <p className="text-center text-muted-foreground mb-12">
             Discover our handpicked selection of world-class aircraft
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {featuredJets.map((jet) => (
               <JetCard key={jet.id} {...jet} />
             ))}
           </div>
         </section>
 
-        <section className="max-w-7xl mx-auto mt-24">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-4">
+        <section ref={(el) => (sectionRefs.current[2] = el)} className="max-w-7xl mx-auto mt-20 md:mt-24">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 opacity-0">
             Client Testimonials
           </h2>
           <p className="text-center text-muted-foreground mb-12">
             Trusted by executives and discerning travelers worldwide
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {testimonials.map((testimonial, index) => (
               <TestimonialCard key={index} {...testimonial} />
             ))}

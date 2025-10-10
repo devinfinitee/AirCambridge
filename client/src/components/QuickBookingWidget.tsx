@@ -1,26 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar, MapPin, Users } from "lucide-react";
+import gsap from "gsap";
 
 export default function QuickBookingWidget() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
   const [passengers, setPassengers] = useState("");
+  const widgetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!widgetRef.current) return;
+
+    gsap.fromTo(
+      widgetRef.current,
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.5,
+      }
+    );
+  }, []);
 
   const handleBookNow = () => {
     console.log("Quick booking:", { from, to, date, passengers });
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-xl p-6 md:p-8 max-w-6xl mx-auto -mt-16 md:-mt-20 relative z-10">
+    <div ref={widgetRef} className="bg-white rounded-lg shadow-2xl p-6 md:p-8 max-w-6xl mx-auto -mt-16 md:-mt-20 relative z-10 opacity-0">
       <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
         Book Your Private Journey
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
           <Input
             placeholder="From"
             value={from}
@@ -30,7 +48,7 @@ export default function QuickBookingWidget() {
           />
         </div>
         <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
           <Input
             placeholder="To"
             value={to}
@@ -40,7 +58,7 @@ export default function QuickBookingWidget() {
           />
         </div>
         <div className="relative">
-          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
           <Input
             type="date"
             value={date}
@@ -50,7 +68,7 @@ export default function QuickBookingWidget() {
           />
         </div>
         <div className="relative">
-          <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+          <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
           <Input
             type="number"
             placeholder="Passengers"

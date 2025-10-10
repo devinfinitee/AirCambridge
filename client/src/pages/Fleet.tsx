@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import JetCard from "@/components/JetCard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import gsap from "gsap";
 import jet1 from "@assets/stock_images/luxury_private_jet_e_68c499e9.jpg";
 import jet2 from "@assets/stock_images/luxury_private_jet_e_9a9496d7.jpg";
 import jet3 from "@assets/stock_images/luxury_private_jet_e_6f06c902.jpg";
@@ -75,6 +76,7 @@ const allJets = [
 export default function Fleet() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [capacityFilter, setCapacityFilter] = useState<string>("all");
+  const headerRef = useRef<HTMLDivElement>(null);
 
   const filteredJets = allJets.filter((jet) => {
     const categoryMatch = categoryFilter === "all" || jet.category === categoryFilter;
@@ -86,14 +88,29 @@ export default function Fleet() {
     return categoryMatch && capacityMatch;
   });
 
+  useEffect(() => {
+    if (!headerRef.current) return;
+
+    gsap.fromTo(
+      headerRef.current.children,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+      }
+    );
+  }, []);
+
   return (
     <div className="min-h-screen pt-20">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-24">
-        <div className="text-center mb-12">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Our Exclusive Fleet</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Travel the world in style aboard our meticulously maintained aircraft with every detail
-            perfected.
+        <div ref={headerRef} className="text-center mb-12">
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4 opacity-0">Our Exclusive Fleet</h1>
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto opacity-0">
+            Travel the world in style aboard our meticulously maintained aircraft with every detail perfected.
           </p>
         </div>
 
@@ -124,7 +141,7 @@ export default function Fleet() {
           </Select>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {filteredJets.map((jet) => (
             <JetCard
               key={jet.id}
