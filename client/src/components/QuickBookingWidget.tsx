@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AVAILABLE_LOCATIONS } from "@/lib/locations";
+import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 import gsap from "gsap";
 
 export default function QuickBookingWidget() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [date, setDate] = useState("");
-  const [passengers, setPassengers] = useState("");
   const widgetRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!widgetRef.current) return;
@@ -27,8 +28,28 @@ export default function QuickBookingWidget() {
     );
   }, []);
 
+  const [, setLocation] = useLocation();
+
   const handleBookNow = () => {
-    console.log("Quick booking:", { from, to, date, passengers });
+    if (!from || !to) {
+      toast({
+        title: "Missing Information",
+        description: "Please select both departure and destination cities.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (from === to) {
+      toast({
+        title: "Invalid Selection",
+        description: "Departure and destination cities cannot be the same.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setLocation('/booking');
   };
 
   return (
@@ -36,48 +57,38 @@ export default function QuickBookingWidget() {
       <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
         Book Your Private Journey
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
-          <Input
-            placeholder="From"
-            value={from}
-            onChange={(e) => setFrom(e.target.value)}
-            className="pl-10"
-            data-testid="input-from"
-          />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div>
+          <Select value={from} onValueChange={setFrom}>
+            <SelectTrigger data-testid="input-from">
+              <SelectValue placeholder="From" />
+            </SelectTrigger>
+            <SelectContent>
+              {AVAILABLE_LOCATIONS.map((location) => (
+                <SelectItem key={location.value} value={location.value}>
+                  {location.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
-          <Input
-            placeholder="To"
-            value={to}
-            onChange={(e) => setTo(e.target.value)}
-            className="pl-10"
-            data-testid="input-to"
-          />
-        </div>
-        <div className="relative">
-          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
-          <Input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="pl-10"
-            data-testid="input-date"
-          />
-        </div>
-        <div className="relative">
-          <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
-          <Input
-            type="number"
-            placeholder="Passengers"
-            value={passengers}
-            onChange={(e) => setPassengers(e.target.value)}
-            className="pl-10"
-            min="1"
-            data-testid="input-passengers"
-          />
+        <div>
+          <Select value={to} onValueChange={setTo}>
+            <SelectTrigger data-testid="input-to">
+              <SelectValue placeholder="To" />
+            </SelectTrigger>
+            <SelectContent>
+              {AVAILABLE_LOCATIONS.map((location) => (
+                <SelectItem 
+                  key={location.value} 
+                  value={location.value}
+                  disabled={location.value === from}
+                >
+                  {location.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <Button className="w-full" onClick={handleBookNow} data-testid="button-book-now">
           Book Now

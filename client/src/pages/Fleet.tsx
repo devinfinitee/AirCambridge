@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import JetCard from "@/components/JetCard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { AVAILABLE_LOCATIONS } from "@/lib/locations";
 import gsap from "gsap";
 import jet1 from "@assets/stock_images/luxury_private_jet_e_68c499e9.jpg";
 import jet2 from "@assets/stock_images/luxury_private_jet_e_9a9496d7.jpg";
@@ -76,6 +78,7 @@ const allJets = [
 export default function Fleet() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [capacityFilter, setCapacityFilter] = useState<string>("all");
+  const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
   const headerRef = useRef<HTMLDivElement>(null);
 
   const filteredJets = allJets.filter((jet) => {
@@ -114,7 +117,20 @@ export default function Fleet() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
+        <div className="mb-8">
+          <div className="bg-card rounded-lg p-6 mb-8">
+            <h2 className="font-semibold text-lg mb-4">Available Locations</h2>
+            <div className="flex flex-wrap gap-2">
+              {AVAILABLE_LOCATIONS.map((location) => (
+                <span key={location.value} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
+                  {location.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 mb-8 items-center">
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
             <SelectTrigger className="w-full sm:w-[200px]" data-testid="select-category">
               <SelectValue placeholder="Category" />
@@ -139,6 +155,25 @@ export default function Fleet() {
               <SelectItem value="large">Large (15+)</SelectItem>
             </SelectContent>
           </Select>
+
+          <div className="flex gap-2 ml-auto">
+            <Button
+              type="button"
+              variant={currency === 'USD' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setCurrency('USD')}
+            >
+              USD ($)
+            </Button>
+            <Button
+              type="button"
+              variant={currency === 'NGN' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setCurrency('NGN')}
+            >
+              NGN (₦)
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -146,6 +181,7 @@ export default function Fleet() {
             <JetCard
               key={jet.id}
               {...jet}
+              currency={currency}
               onViewDetails={(id) => console.log("View details for jet:", id)}
             />
           ))}

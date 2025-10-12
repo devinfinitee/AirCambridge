@@ -11,6 +11,7 @@ interface JetCardProps {
   speed: string;
   hourlyRate: number;
   image: string;
+  currency?: 'USD' | 'NGN';
   onViewDetails?: (id: string) => void;
 }
 
@@ -23,8 +24,12 @@ export default function JetCard({
   speed,
   hourlyRate,
   image,
+  currency = 'USD',
   onViewDetails,
 }: JetCardProps) {
+  // Convert USD to NGN (approximate rate: 1 USD = 1600 NGN)
+  const displayRate = currency === 'USD' ? hourlyRate : hourlyRate * 1600;
+  const currencySymbol = currency === 'USD' ? '$' : '₦';
   return (
     <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all cursor-pointer group h-full flex flex-col" data-testid={`card-jet-${id}`}>
       <div className="aspect-video overflow-hidden">
@@ -56,7 +61,7 @@ export default function JetCard({
         </div>
         <div className="border-t pt-4 mt-auto">
           <p className="text-sm text-muted-foreground">Estimated Hourly Rate</p>
-          <p className="text-2xl font-bold text-primary">${hourlyRate.toLocaleString()}</p>
+          <p className="text-2xl font-bold text-primary">{currencySymbol}{displayRate.toLocaleString()}</p>
         </div>
       </CardContent>
       <CardFooter className="pt-0 pb-6 px-6">

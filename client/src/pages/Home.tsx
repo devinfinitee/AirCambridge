@@ -2,75 +2,20 @@ import { useEffect, useRef } from "react";
 import HeroSlider from "@/components/HeroSlider";
 import QuickBookingWidget from "@/components/QuickBookingWidget";
 import FeatureCard from "@/components/FeatureCard";
-import JetCard from "@/components/JetCard";
-import TestimonialCard from "@/components/TestimonialCard";
-import { Globe, Clock, Shield, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Globe, Clock, Shield, Sparkles, MessageCircle, Mail } from "lucide-react";
+import { openWhatsApp } from "@/lib/emailjs";
+import { useLocation } from "wouter";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import jet1 from "@assets/stock_images/luxury_private_jet_e_68c499e9.jpg";
-import jet2 from "@assets/stock_images/luxury_private_jet_e_9a9496d7.jpg";
-import interior1 from "@assets/stock_images/luxury_private_jet_i_bec10afb.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
-//todo: remove mock data
-const featuredJets = [
-  {
-    id: "1",
-    name: "Gulfstream G700",
-    category: "Heavy Jet",
-    capacity: 19,
-    range: "7,500 nm",
-    speed: "Mach 0.925",
-    hourlyRate: 12500,
-    image: jet1,
-  },
-  {
-    id: "2",
-    name: "Bombardier Global 7500",
-    category: "Ultra Long Range",
-    capacity: 17,
-    range: "7,700 nm",
-    speed: "Mach 0.925",
-    hourlyRate: 13000,
-    image: jet2,
-  },
-  {
-    id: "3",
-    name: "Cessna Citation X",
-    category: "Midsize Jet",
-    capacity: 12,
-    range: "3,460 nm",
-    speed: "Mach 0.935",
-    hourlyRate: 8500,
-    image: interior1,
-  },
-];
-
-//todo: remove mock data
-const testimonials = [
-  {
-    quote: "AirCambridge Jet provides an unmatched level of service. Every detail is perfect, making business travel a true pleasure.",
-    author: "Sarah Johnson",
-    role: "CEO, Tech Innovations Inc.",
-    rating: 5,
-  },
-  {
-    quote: "The seamless booking process and exceptional in-flight experience make AirCambridge our go-to choice for executive travel.",
-    author: "Michael Chen",
-    role: "CFO, Global Ventures",
-    rating: 5,
-  },
-  {
-    quote: "Punctual, professional, and luxurious. AirCambridge Jet has redefined what private aviation means to our organization.",
-    author: "Emma Williams",
-    role: "Director, Prestige Events",
-    rating: 5,
-  },
-];
 
 export default function Home() {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     sectionRefs.current.forEach((section, index) => {
@@ -132,32 +77,36 @@ export default function Home() {
           </div>
         </section>
 
-        <section ref={(el) => (sectionRefs.current[1] = el)} className="max-w-7xl mx-auto mt-20 md:mt-24">
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 opacity-0">
-            Featured Fleet
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Discover our handpicked selection of world-class aircraft
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {featuredJets.map((jet) => (
-              <JetCard key={jet.id} {...jet} />
-            ))}
-          </div>
-        </section>
-
-        <section ref={(el) => (sectionRefs.current[2] = el)} className="max-w-7xl mx-auto mt-20 md:mt-24">
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 opacity-0">
-            Client Testimonials
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Trusted by executives and discerning travelers worldwide
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} />
-            ))}
-          </div>
+        <section ref={(el) => (sectionRefs.current[1] = el)} className="max-w-4xl mx-auto mt-20 md:mt-24">
+          <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20">
+            <CardContent className="p-8 md:p-12 text-center">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">
+                Ready to Book Your Flight?
+              </h2>
+              <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Contact us directly via WhatsApp or email for personalized service and instant booking assistance.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  size="lg" 
+                  className="gap-2"
+                  onClick={() => openWhatsApp('Hello, I would like to book a private jet flight.')}
+                >
+                  <MessageCircle size={20} />
+                  Contact via WhatsApp
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="gap-2"
+                  onClick={() => setLocation('/contact')}
+                >
+                  <Mail size={20} />
+                  Send Email
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </section>
       </div>
     </div>

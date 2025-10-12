@@ -4,8 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Send, MessageCircle, Clock, Globe } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import gsap from "gsap";
+import { openWhatsApp, whatsappConfig, emailJsConfig } from "@/lib/emailjs";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -13,7 +16,8 @@ export default function Contact() {
     email: "",
     message: "",
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,10 +37,39 @@ export default function Contact() {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Contact form submitted:", formData);
-    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      await emailjs.send(
+        emailJsConfig.serviceId,
+        emailJsConfig.templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'AirCambridge Jet Team',
+        },
+        emailJsConfig.publicKey
+      );
+      
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+      
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again or contact us via WhatsApp.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -109,36 +142,79 @@ export default function Contact() {
                         data-testid="textarea-contact-message"
                       />
                     </div>
-                    <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold" data-testid="button-send-message">
-                      <Send className="mr-2" size={18} />
-                      Send Message
-                    </Button>
+                    <div className="space-y-3">
+                      <Button 
+                        type="submit" 
+                        size="lg" 
+                        className="w-full h-12 text-base font-semibold" 
+                        data-testid="button-send-message"
+                        disabled={isSubmitting}
+                      >
+                        <Send className="mr-2" size={18} />
+                        {isSubmitting ? "Sending..." : "Send Message"}
+                      </Button>
+                      <Button 
+                        type="button" 
+                        size="lg" 
+                        variant="outline"
+                        className="w-full h-12 text-base font-semibold" 
+                        onClick={() => openWhatsApp(`Hello, I'm ${formData.name}. ${formData.message}`)}
+                      >
+                        <MessageCircle className="mr-2" size={18} />
+                        Contact via WhatsApp
+                      </Button>
+                    </div>
                   </form>
                 </CardContent>
               </Card>
             </div>
 
             <div className="lg:col-span-2 space-y-6">
-              <Card className="hover-elevate transition-all border-2">
+              <Card className="hover-elevate transition-all border-2 bg-gradient-to-br from-primary/5 to-primary/10">
                 <CardContent className="p-6">
-                  <h3 className="font-serif text-xl font-bold mb-6">Contact Information</h3>
-                  <div className="space-y-4">
-                    <div className="flex gap-4 items-start">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Phone className="text-primary" size={20} />
+                  <div className="flex items-center gap-2 mb-6">
+                    <Phone className="text-primary" size={24} />
+                    <h3 className="font-serif text-xl font-bold">Contact Information</h3>
+                  </div>
+                  <div className="space-y-5">
+                    <div className="flex gap-4 items-start p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-colors">
+                      <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                        <MessageCircle className="text-green-600" size={22} />
                       </div>
-                      <div>
-                        <p className="font-semibold text-base">+1 (555) 123-4567</p>
-                        <p className="text-sm text-muted-foreground">24/7 Hotline</p>
+                      <div className="flex-1">
+                        <p className="text-xs text-muted-foreground mb-1">WhatsApp</p>
+                        <button 
+                          onClick={() => openWhatsApp('Hello, I would like to inquire about your services.')}
+                          className="font-semibold text-base hover:text-primary transition-colors text-left block"
+                        >
+                          {whatsappConfig.phoneNumber}
+                        </button>
+                        <p className="text-xs text-muted-foreground mt-1">Click to chat • Available 24/7</p>
                       </div>
                     </div>
-                    <div className="flex gap-4 items-start">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Mail className="text-primary" size={20} />
+                    <div className="flex gap-4 items-start p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-colors">
+                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <Mail className="text-blue-600" size={22} />
                       </div>
-                      <div>
-                        <p className="font-semibold text-base">info@aircambridgejet.com</p>
-                        <p className="text-sm text-muted-foreground">General Inquiries</p>
+                      <div className="flex-1">
+                        <p className="text-xs text-muted-foreground mb-1">Email</p>
+                        <a 
+                          href="mailto:info@aircambridgejet.com"
+                          className="font-semibold text-base hover:text-primary transition-colors block"
+                        >
+                          info@aircambridgejet.com
+                        </a>
+                        <p className="text-xs text-muted-foreground mt-1">General Inquiries</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4 items-start p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-colors">
+                      <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                        <Clock className="text-purple-600" size={22} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-muted-foreground mb-1">Availability</p>
+                        <p className="font-semibold text-base">24/7 Support</p>
+                        <p className="text-xs text-muted-foreground mt-1">Always here to help</p>
                       </div>
                     </div>
                   </div>
@@ -147,27 +223,42 @@ export default function Contact() {
 
               <Card className="hover-elevate transition-all border-2">
                 <CardContent className="p-6">
-                  <h3 className="font-serif text-xl font-bold mb-6">Global Offices</h3>
-                  <div className="space-y-4">
+                  <h3 className="font-serif text-xl font-bold mb-6">Available Locations</h3>
+                  <div className="space-y-3">
                     <div className="flex gap-3 items-start">
-                      <MapPin className="text-primary flex-shrink-0 mt-1" size={20} />
+                      <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
+                      <div>
+                        <p className="font-semibold text-sm">Abuja, Nigeria</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 items-start">
+                      <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
                       <div>
                         <p className="font-semibold text-sm">Lagos, Nigeria</p>
-                        <p className="text-xs text-muted-foreground">Victoria Island</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <MapPin className="text-primary flex-shrink-0 mt-1" size={20} />
+                      <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
                       <div>
                         <p className="font-semibold text-sm">London, UK</p>
-                        <p className="text-xs text-muted-foreground">Mayfair</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <MapPin className="text-primary flex-shrink-0 mt-1" size={20} />
+                      <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
                       <div>
-                        <p className="font-semibold text-sm">Dubai, UAE</p>
-                        <p className="text-xs text-muted-foreground">Business Bay</p>
+                        <p className="font-semibold text-sm">USA</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 items-start">
+                      <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
+                      <div>
+                        <p className="font-semibold text-sm">Ghana</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 items-start">
+                      <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
+                      <div>
+                        <p className="font-semibold text-sm">Kenya</p>
                       </div>
                     </div>
                   </div>

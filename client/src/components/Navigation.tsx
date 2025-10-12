@@ -24,7 +24,6 @@ export default function Navigation() {
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
-    { path: "/fleet", label: "Fleet" },
     { path: "/booking", label: "Booking" },
     { path: "/contact", label: "Contact" },
   ];

@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { whatsappConfig } from "@/lib/emailjs";
 import { useState } from "react";
 
 export default function Footer() {
@@ -51,11 +52,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/fleet" className="text-white/80 hover:text-primary transition-colors">
-                  Our Fleet
-                </Link>
-              </li>
-              <li>
                 <Link href="/booking" className="text-white/80 hover:text-primary transition-colors">
                   Book Now
                 </Link>
@@ -71,8 +67,8 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-lg mb-4">Contact Info</h4>
             <ul className="space-y-2 text-sm text-white/80">
-              <li>📍 Lagos | London | Dubai</li>
-              <li>📞 +1 (555) 123-4567</li>
+              <li>📍 Abuja | Lagos | Ghana | Kenya</li>
+              <li>📞 {whatsappConfig.phoneNumber}</li>
               <li>📧 info@aircambridgejet.com</li>
             </ul>
           </div>

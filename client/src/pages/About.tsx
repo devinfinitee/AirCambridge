@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Shield, Star, Lock, Lightbulb } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ownerImage from "@assets/stock_images/professional_busines_0ffbe441.jpg";
+import ownerImage from "@assets/stock_images/ogunsakin_timileyin.jpg.JPG";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,12 +126,13 @@ export default function About() {
                 />
               </div>
               <div className="p-6 md:p-8 text-center">
-                <h3 className="font-serif text-2xl md:text-3xl font-bold mb-2">Jonathan Cambridge</h3>
+                <h3 className="font-serif text-2xl md:text-3xl font-bold mb-2">Ogunsakin Timilehin</h3>
                 <p className="text-primary font-medium mb-4">Founder & CEO</p>
                 <p className="text-muted-foreground leading-relaxed">
-                  With over 20 years of experience in aviation and luxury hospitality, Jonathan founded
-                  AirCambridge Jet to revolutionize private air travel. His vision combines cutting-edge
-                  technology with timeless service excellence.
+                  Timileyin Ogunsakin is a visionary entrepreneur dedicated to redefining luxury air travel across Africa and beyond. 
+                  With a passion for excellence and innovation, he founded AirCambridge Jet to provide seamless, world-class private 
+                  aviation experiences. His commitment to safety, discretion, and personalized service has made AirCambridge Jet the 
+                  preferred choice for discerning travelers seeking unparalleled comfort in the skies.
                 </p>
               </div>
             </div>
