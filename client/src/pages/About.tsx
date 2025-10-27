@@ -129,7 +129,7 @@ export default function About() {
                 <h3 className="font-serif text-2xl md:text-3xl font-bold mb-2">Ogunsakin Timilehin</h3>
                 <p className="text-primary font-medium mb-4">Founder & CEO</p>
                 <p className="text-muted-foreground leading-relaxed">
-                  Timileyin Ogunsakin is a visionary entrepreneur dedicated to redefining luxury air travel across Africa and beyond. 
+                  Timilehin Ogunsakin is a visionary entrepreneur dedicated to redefining luxury air travel across Africa and beyond. 
                   With a passion for excellence and innovation, he founded AirCambridge Jet to provide seamless, world-class private 
                   aviation experiences. His commitment to safety, discretion, and personalized service has made AirCambridge Jet the 
                   preferred choice for discerning travelers seeking unparalleled comfort in the skies.

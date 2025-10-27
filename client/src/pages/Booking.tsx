@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Check, DollarSign, MessageCircle } from "lucide-react";
 import { AVAILABLE_LOCATIONS, PRICING, formatCurrency, isWithinNigeria } from "@/lib/locations";
-import { openWhatsApp, emailJsConfig } from "@/lib/emailjs";
+import { openWhatsApp, emailJsConfig, defaultContactEmail } from "@/lib/emailjs";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
 import gsap from "gsap";
@@ -68,15 +68,9 @@ export default function Booking() {
         {
           from_name: formData.fullName,
           from_email: formData.email,
-          message: `Booking Request:
-
-Name: ${formData.fullName}
-Email: ${formData.email}
-Phone: ${formData.phone}
-From: ${fromLabel}
-To: ${toLabel}
-Additional Notes: ${formData.additionalNotes || 'None'}`,
+          message: `Booking Request:\n\nName: ${formData.fullName}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nFrom: ${fromLabel}\nTo: ${toLabel}\nAdditional Notes: ${formData.additionalNotes || 'None'}`,
           to_name: 'AirCambridge Jet Team',
+          to_email: defaultContactEmail,
         },
         emailJsConfig.publicKey
       );

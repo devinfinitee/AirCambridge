@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Phone, Mail, Send, MessageCircle, Clock, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import gsap from "gsap";
-import { openWhatsApp, whatsappConfig, emailJsConfig } from "@/lib/emailjs";
+import { openWhatsApp, whatsappConfig, emailJsConfig, defaultContactEmail } from "@/lib/emailjs";
 import emailjs from "@emailjs/browser";
 
 export default function Contact() {
@@ -50,6 +50,7 @@ export default function Contact() {
           from_email: formData.email,
           message: formData.message,
           to_name: 'AirCambridge Jet Team',
+          to_email: defaultContactEmail,
         },
         emailJsConfig.publicKey
       );
@@ -199,10 +200,10 @@ export default function Contact() {
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">Email</p>
                         <a 
-                          href="mailto:info@aircambridgejet.com"
+                          href={`mailto:${defaultContactEmail}`}
                           className="font-semibold text-base hover:text-primary transition-colors block"
                         >
-                          info@aircambridgejet.com
+                          {defaultContactEmail}
                         </a>
                         <p className="text-xs text-muted-foreground mt-1">General Inquiries</p>
                       </div>

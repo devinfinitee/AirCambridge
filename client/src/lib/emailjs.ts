@@ -12,6 +12,9 @@ export const whatsappConfig = {
   phoneNumber: import.meta.env.VITE_WHATSAPP_NUMBER || '+2348012345678',
 };
 
+// Default site-wide contact email
+export const defaultContactEmail = 'aircambridgee@gmail.com';
+
 // Helper function to open WhatsApp chat
 export const openWhatsApp = (message?: string) => {
   const encodedMessage = message ? encodeURIComponent(message) : '';

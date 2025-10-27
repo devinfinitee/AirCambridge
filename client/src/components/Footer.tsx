@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import { whatsappConfig } from "@/lib/emailjs";
+import { whatsappConfig, defaultContactEmail } from "@/lib/emailjs";
 import { useState } from "react";
 
 export default function Footer() {
@@ -69,7 +69,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-white/80">
               <li>📍 Abuja | Lagos | Ghana | Kenya</li>
               <li>📞 {whatsappConfig.phoneNumber}</li>
-              <li>📧 info@aircambridgejet.com</li>
+              <li>📧 {defaultContactEmail}</li>
             </ul>
           </div>
 
