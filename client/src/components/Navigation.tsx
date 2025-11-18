@@ -37,9 +37,9 @@ export default function Navigation() {
           : "bg-black/80 backdrop-blur-xl"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" data-testid="link-home" className="flex items-center">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16 md:h-20 gap-2">
+          <Link href="/" data-testid="link-home" className="flex items-center min-w-0 flex-shrink">
             <AirCambridgeLogo showTagline className="transition-transform hover:scale-[1.02]" />
           </Link>
 
@@ -72,11 +72,11 @@ export default function Navigation() {
           </Button>
 
           <button
-            className="md:hidden text-white hover:text-primary transition-colors p-2"
+            className="md:hidden text-white hover:text-primary transition-colors p-2 flex-shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             data-testid="button-mobile-menu"
           >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
