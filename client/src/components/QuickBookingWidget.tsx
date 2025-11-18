@@ -40,7 +40,7 @@ export default function QuickBookingWidget() {
       });
       return;
     }
-
+    
     if (from === to) {
       toast({
         title: "Invalid Selection",
@@ -49,7 +49,7 @@ export default function QuickBookingWidget() {
       });
       return;
     }
-
+    
     sessionStorage.setItem(
       "aircambridge-last-search",
       JSON.stringify({ from, to, serviceType })
@@ -61,15 +61,15 @@ export default function QuickBookingWidget() {
   return (
     <div
       ref={widgetRef}
-      className="bg-gradient-to-br from-black via-black to-[#111] text-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-6xl mx-auto -mt-16 md:-mt-20 relative z-10 opacity-0 border border-white/10"
+      className="bg-gradient-to-br from-black via-black to-[#111] text-white rounded-2xl md:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 max-w-6xl mx-auto -mt-12 sm:-mt-16 md:-mt-20 relative z-10 opacity-0 border border-white/10"
     >
-      <h3 className="font-serif text-2xl md:text-3xl font-bold mb-3 text-center">
+      <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 text-center leading-tight">
         Concierge requests from MM2, Ikeja Airport — Lagos 🇳🇬
       </h3>
-      <p className="text-center text-white/70 text-sm md:text-base mb-6">
+      <p className="text-center text-white/70 text-xs sm:text-sm md:text-base mb-4 sm:mb-6 leading-relaxed px-2">
         Combine domestic or international flights, helicopter lifts, visa processing, passport express, or aircraft deals in one request.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div>
           <Select value={from} onValueChange={setFrom}>
             <SelectTrigger data-testid="input-from" className="bg-white text-black h-12">
@@ -91,8 +91,8 @@ export default function QuickBookingWidget() {
             </SelectTrigger>
             <SelectContent>
               {AVAILABLE_LOCATIONS.map((location) => (
-                <SelectItem
-                  key={location.value}
+                <SelectItem 
+                  key={location.value} 
                   value={location.value}
                   disabled={location.value === from}
                 >

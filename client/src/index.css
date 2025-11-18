@@ -240,6 +240,27 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
+
+  /* Mobile viewport fixes */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Ensure images are responsive and don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Fix for mobile hero section */
+  @supports (height: 100dvh) {
+    .hero-section {
+      height: 100dvh;
+      min-height: 100dvh;
+    }
+  }
 }
 
 /**

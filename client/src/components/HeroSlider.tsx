@@ -32,6 +32,7 @@ export default function HeroSlider() {
           const img = new Image();
           img.src = src;
           img.onload = resolve;
+          img.onerror = resolve; // Resolve even on error to not block the UI
         });
       });
       await Promise.all(promises);
@@ -85,21 +86,31 @@ export default function HeroSlider() {
   useEffect(() => {
     if (!isLoaded) return;
 
-    gsap.fromTo(
-      ".hero-content",
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.3,
-      }
-    );
+    const heroContent = document.querySelector(".hero-content");
+    if (!heroContent) return;
+
+    try {
+      gsap.fromTo(
+        heroContent,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          delay: 0.3,
+        }
+      );
+    } catch (error) {
+      // Fallback: show content immediately if GSAP fails
+      console.warn("GSAP animation failed, showing content directly:", error);
+      (heroContent as HTMLElement).style.opacity = "1";
+      (heroContent as HTMLElement).style.transform = "translateY(0)";
+    }
   }, [isLoaded]);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden" ref={sliderRef}>
+    <div className="relative min-h-screen h-[100dvh] w-full overflow-hidden" ref={sliderRef}>
       {images.map((img, index) => (
         <div
           key={index}
@@ -108,43 +119,48 @@ export default function HeroSlider() {
           <img
             src={img}
             alt={`Luxury private jet ${index + 1}`}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
             loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 z-10" />
         </div>
       ))}
 
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="hero-content text-center text-white px-4 max-w-5xl mx-auto opacity-0">
-          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 tracking-tight" data-testid="text-hero-title">
+      <div className="absolute inset-0 flex items-center justify-center z-20 px-4 py-16 md:py-20">
+        <div className="hero-content text-center text-white w-full max-w-5xl mx-auto" style={{ opacity: isLoaded ? 1 : 0 }}>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 lg:mb-6 tracking-tight leading-tight" data-testid="text-hero-title">
             Seamless Travel, Airtight Logistics.
           </h1>
-          <p className="text-base md:text-xl mb-4 text-white/90 max-w-3xl mx-auto font-light">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-3 md:mb-4 text-white/90 max-w-3xl mx-auto font-light leading-relaxed">
             AirCambridge operates from MM2, Ikeja Airport Lagos 🇳🇬 delivering rapid flight bookings, rotorcraft transfers,
             and concierge paperwork for every mission.
           </p>
-          <p className="text-sm md:text-lg mb-8 md:mb-10 text-white/80 max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm md:text-base lg:text-lg mb-6 md:mb-8 lg:mb-10 text-white/80 max-w-2xl mx-auto leading-relaxed">
             Fast service, premium experience, trusted support — including Nigeria international passport delivery within 3 hours of capturing.
           </p>
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6 md:mb-8 lg:mb-10">
             {heroServices.map((service) => (
               <span
                 key={service}
-                className="px-4 py-2 rounded-full bg-white/10 border border-white/30 text-sm font-semibold tracking-tight"
+                className="px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-xs sm:text-sm font-semibold tracking-tight"
               >
                 {service}
               </span>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" variant="default" asChild data-testid="button-book-jet-hero" className="min-w-[180px]">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
+            <Button size="lg" variant="default" asChild data-testid="button-book-jet-hero" className="min-w-[160px] sm:min-w-[180px] w-full sm:w-auto">
               <Link href="/booking">Request Concierge</Link>
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 min-w-[160px]"
+              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 min-w-[160px] w-full sm:w-auto"
               asChild
               data-testid="button-explore-fleet"
             >
