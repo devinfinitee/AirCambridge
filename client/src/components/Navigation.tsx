@@ -38,9 +38,9 @@ export default function Navigation() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16 md:h-20 gap-2">
-          <Link href="/" data-testid="link-home" className="flex items-center min-w-0 flex-shrink">
-            <AirCambridgeLogo showTagline className="transition-transform hover:scale-[1.02]" />
+        <div className="flex items-center justify-between h-14 sm:h-16 md:h-20 gap-2 md:gap-4">
+          <Link href="/" data-testid="link-home" className="flex items-center min-w-0 flex-shrink overflow-hidden pr-2">
+            <AirCambridgeLogo showTagline className="transition-transform hover:scale-[1.02] md:hover:scale-[1.02]" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
