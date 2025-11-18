@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { whatsappConfig, defaultContactEmail } from "@/lib/emailjs";
 import { useState } from "react";
+import AirCambridgeLogo from "@/components/AirCambridgeLogo";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -14,15 +15,15 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-foreground text-white pt-16 pb-8">
+    <footer className="bg-foreground text-white pt-10 pb-6">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           <div>
-            <h3 className="font-serif text-2xl font-bold mb-4 text-primary">AirCambridge Jet</h3>
+            <AirCambridgeLogo showTagline className="mb-4" />
             <p className="text-white/80 text-sm mb-4">
-              Redefining private aviation with world-class service and seamless travel experiences.
+              Your trusted partner for seamless air travel, helicopter charters, and global mobility solutions across Africa and the world.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <button className="hover-elevate active-elevate-2 p-2 rounded" data-testid="button-social-facebook">
                 <Facebook size={20} />
               </button>
@@ -39,8 +40,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold text-lg mb-3">Quick Links</h4>
+            <ul className="space-y-1.5 text-sm">
               <li>
                 <Link href="/" className="text-white/80 hover:text-primary transition-colors">
                   Home
@@ -65,17 +66,17 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Contact Info</h4>
-            <ul className="space-y-2 text-sm text-white/80">
-              <li>📍 Abuja | Lagos | Ghana | Kenya</li>
+            <h4 className="font-semibold text-lg mb-3">Contact Info</h4>
+            <ul className="space-y-1.5 text-sm text-white/80">
+              <li>📍 MM2, Ikeja Airport, Lagos State, Nigeria 🇳🇬</li>
               <li>📞 {whatsappConfig.phoneNumber}</li>
               <li>📧 {defaultContactEmail}</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Newsletter</h4>
-            <p className="text-sm text-white/80 mb-4">
+            <h4 className="font-semibold text-lg mb-3">Newsletter</h4>
+            <p className="text-sm text-white/80 mb-3">
               Stay updated with exclusive offers and aviation news.
             </p>
             <div className="flex gap-2">
@@ -93,7 +94,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 text-center text-sm text-white/60">
+        <div className="border-t border-white/10 pt-6 text-center text-xs md:text-sm text-white/60">
           <p>&copy; 2025 AirCambridge Jet. All rights reserved.</p>
         </div>
       </div>

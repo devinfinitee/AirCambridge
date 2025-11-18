@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import AirCambridgeLogo from "@/components/AirCambridgeLogo";
 
 export default function Navigation() {
-  const [location, setLocation] = useLocation();
+  const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -24,24 +25,22 @@ export default function Navigation() {
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
-    { path: "/booking", label: "Booking" },
+    { path: "/booking", label: "Services" },
     { path: "/contact", label: "Contact" },
   ];
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? "bg-foreground shadow-2xl" 
-          : "bg-foreground/90 backdrop-blur-md"
+      className={`fixed top-0 left-0 right-0 z-50 border-b border-white/10 transition-all duration-500 ${
+        isScrolled
+          ? "bg-black shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
+          : "bg-black/80 backdrop-blur-xl"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" data-testid="link-home">
-            <h1 className="font-serif text-2xl md:text-3xl font-bold text-white cursor-pointer transition-all hover:text-primary">
-              AirCambridge Jet
-            </h1>
+          <Link href="/" data-testid="link-home" className="flex items-center">
+            <AirCambridgeLogo showTagline className="transition-transform hover:scale-[1.02]" />
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
@@ -69,7 +68,7 @@ export default function Navigation() {
             data-testid="button-book-jet"
             asChild
           >
-            <Link href="/booking">Book a Jet</Link>
+            <Link href="/booking">Request Service</Link>
           </Button>
 
           <button
@@ -83,7 +82,7 @@ export default function Navigation() {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-foreground border-t border-white/10 shadow-2xl animate-in slide-in-from-top duration-300">
+        <div className="md:hidden bg-black border-t border-white/10 shadow-2xl animate-in slide-in-from-top duration-300">
           <div className="px-4 py-6 space-y-4">
             {navLinks.map((link) => (
               <Link key={link.path} href={link.path}>
@@ -101,7 +100,7 @@ export default function Navigation() {
             ))}
             <Button variant="default" className="w-full font-semibold" size="lg" asChild>
               <Link href="/booking" onClick={() => setIsMobileMenuOpen(false)}>
-                Book a Jet
+                Request Service
               </Link>
             </Button>
           </div>

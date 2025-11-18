@@ -9,6 +9,7 @@ import gsap from "gsap";
 export default function QuickBookingWidget() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [serviceType, setServiceType] = useState("");
   const widgetRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -39,7 +40,7 @@ export default function QuickBookingWidget() {
       });
       return;
     }
-    
+
     if (from === to) {
       toast({
         title: "Invalid Selection",
@@ -48,19 +49,30 @@ export default function QuickBookingWidget() {
       });
       return;
     }
-    
-    setLocation('/booking');
+
+    sessionStorage.setItem(
+      "aircambridge-last-search",
+      JSON.stringify({ from, to, serviceType })
+    );
+
+    setLocation("/booking");
   };
 
   return (
-    <div ref={widgetRef} className="bg-white rounded-lg shadow-2xl p-6 md:p-8 max-w-6xl mx-auto -mt-16 md:-mt-20 relative z-10 opacity-0">
-      <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
-        Book Your Private Journey
+    <div
+      ref={widgetRef}
+      className="bg-gradient-to-br from-black via-black to-[#111] text-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-6xl mx-auto -mt-16 md:-mt-20 relative z-10 opacity-0 border border-white/10"
+    >
+      <h3 className="font-serif text-2xl md:text-3xl font-bold mb-3 text-center">
+        Concierge requests from MM2, Ikeja Airport — Lagos 🇳🇬
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <p className="text-center text-white/70 text-sm md:text-base mb-6">
+        Combine domestic or international flights, helicopter lifts, visa processing, passport express, or aircraft deals in one request.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div>
           <Select value={from} onValueChange={setFrom}>
-            <SelectTrigger data-testid="input-from">
+            <SelectTrigger data-testid="input-from" className="bg-white text-black h-12">
               <SelectValue placeholder="From" />
             </SelectTrigger>
             <SelectContent>
@@ -74,13 +86,13 @@ export default function QuickBookingWidget() {
         </div>
         <div>
           <Select value={to} onValueChange={setTo}>
-            <SelectTrigger data-testid="input-to">
+            <SelectTrigger data-testid="input-to" className="bg-white text-black h-12">
               <SelectValue placeholder="To" />
             </SelectTrigger>
             <SelectContent>
               {AVAILABLE_LOCATIONS.map((location) => (
-                <SelectItem 
-                  key={location.value} 
+                <SelectItem
+                  key={location.value}
                   value={location.value}
                   disabled={location.value === from}
                 >
@@ -90,10 +102,33 @@ export default function QuickBookingWidget() {
             </SelectContent>
           </Select>
         </div>
-        <Button className="w-full" onClick={handleBookNow} data-testid="button-book-now">
-          Book Now
+        <div>
+          <Select value={serviceType} onValueChange={setServiceType}>
+            <SelectTrigger className="bg-white text-black h-12" data-testid="input-service-type">
+              <SelectValue placeholder="Service focus" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="domestic">Domestic Flight Booking</SelectItem>
+              <SelectItem value="international">International Flight Booking</SelectItem>
+              <SelectItem value="private-jet">Private Jet Charter</SelectItem>
+              <SelectItem value="helicopter">Helicopter Charter</SelectItem>
+              <SelectItem value="visa">Immigration & Visa Support</SelectItem>
+              <SelectItem value="passport">Passport Express (3hrs)</SelectItem>
+              <SelectItem value="sales">Airplane Sales & Deals</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <Button
+          className="w-full h-12 text-base font-semibold"
+          onClick={handleBookNow}
+          data-testid="button-book-now"
+        >
+          Submit Request
         </Button>
       </div>
+      <p className="text-xs text-white/60 mt-4 text-center">
+        Need help? Our operations desk responds instantly via WhatsApp.
+      </p>
     </div>
   );
 }

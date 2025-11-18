@@ -11,6 +11,15 @@ import jet5 from "@assets/stock_images/luxury_private_jet_e_e886b84a.jpg";
 
 const images = [jet1, jet2, jet3, jet4, jet5];
 
+const heroServices = [
+  "Domestic & International Flights",
+  "Private Jet & Helicopter Charter",
+  "Immigration & Visa Advisory",
+  "Passport Express (3hrs)",
+  "Airplane Sales & Deals",
+  "Travel Risk & Compliance",
+];
+
 export default function HeroSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const currentIndex = useRef(0);
@@ -109,14 +118,28 @@ export default function HeroSlider() {
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="hero-content text-center text-white px-4 max-w-5xl mx-auto opacity-0">
           <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 tracking-tight" data-testid="text-hero-title">
-            Your Journey. Redefined.
+            Seamless Travel, Airtight Logistics.
           </h1>
-          <p className="text-base md:text-xl mb-8 md:mb-12 text-white/90 max-w-2xl mx-auto font-light">
-            Experience unparalleled luxury and comfort with AirCambridge Jet's exclusive private aviation services
+          <p className="text-base md:text-xl mb-4 text-white/90 max-w-3xl mx-auto font-light">
+            AirCambridge operates from MM2, Ikeja Airport Lagos 🇳🇬 delivering rapid flight bookings, rotorcraft transfers,
+            and concierge paperwork for every mission.
           </p>
+          <p className="text-sm md:text-lg mb-8 md:mb-10 text-white/80 max-w-2xl mx-auto">
+            Fast service, premium experience, trusted support — including Nigeria international passport delivery within 3 hours of capturing.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {heroServices.map((service) => (
+              <span
+                key={service}
+                className="px-4 py-2 rounded-full bg-white/10 border border-white/30 text-sm font-semibold tracking-tight"
+              >
+                {service}
+              </span>
+            ))}
+          </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" variant="default" asChild data-testid="button-book-jet-hero" className="min-w-[160px]">
-              <Link href="/booking">Book a Jet</Link>
+            <Button size="lg" variant="default" asChild data-testid="button-book-jet-hero" className="min-w-[180px]">
+              <Link href="/booking">Request Concierge</Link>
             </Button>
             <Button
               size="lg"
@@ -125,7 +148,7 @@ export default function HeroSlider() {
               asChild
               data-testid="button-explore-fleet"
             >
-              <Link href="/fleet">Explore Fleet</Link>
+              <Link href="/about">Explore Services</Link>
             </Button>
           </div>
         </div>

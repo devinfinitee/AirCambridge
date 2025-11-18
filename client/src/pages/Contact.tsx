@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Send, MessageCircle, Clock, Globe } from "lucide-react";
+import { MapPin, Phone, Mail, Send, MessageCircle, Clock, Globe, Flag, BadgeCheck } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import gsap from "gsap";
 import { openWhatsApp, whatsappConfig, emailJsConfig, defaultContactEmail } from "@/lib/emailjs";
@@ -229,13 +229,14 @@ export default function Contact() {
                     <div className="flex gap-3 items-start">
                       <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
                       <div>
-                        <p className="font-semibold text-sm">Abuja, Nigeria</p>
+                        <p className="font-semibold text-sm">MM2, Ikeja Airport, Lagos State, Nigeria 🇳🇬 (HQ)</p>
+                        <p className="text-xs text-muted-foreground">Inside Murtala Muhammed Airport Terminal 2</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
                       <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
                       <div>
-                        <p className="font-semibold text-sm">Lagos, Nigeria</p>
+                        <p className="font-semibold text-sm">Abuja & Port Harcourt Satellite Teams</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
@@ -253,7 +254,7 @@ export default function Contact() {
                     <div className="flex gap-3 items-start">
                       <MapPin className="text-primary flex-shrink-0 mt-1" size={18} />
                       <div>
-                        <p className="font-semibold text-sm">Ghana</p>
+                        <p className="font-semibold text-sm">Accra, Ghana</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
@@ -266,12 +267,29 @@ export default function Contact() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-primary/5 hover-elevate transition-all border-2 border-primary/20">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-3">Available 24/7</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Our dedicated concierge team is ready to assist you around the clock
+              <Card className="hover-elevate transition-all border-2 border-primary/30 bg-gradient-to-r from-black via-black to-[#111] text-white">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <BadgeCheck className="text-primary" size={22} />
+                    <div>
+                      <h3 className="font-serif text-xl font-bold">Passport Express Desk</h3>
+                      <p className="text-xs text-white/70 uppercase tracking-[0.3em]">3-hour delivery</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-white/80">
+                    Get your Nigeria international passport within 3 hours after capturing at the immigration office.
+                    We pre-vet documents, schedule priority sessions, and escort you door-to-door.
                   </p>
+                  <div className="flex flex-col gap-2 text-sm text-white/70">
+                    <div className="flex items-center gap-2">
+                      <Flag size={16} />
+                      <span>Dedicated liaison officers in Lagos & Abuja immigration offices.</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock size={16} />
+                      <span>Same-day processing with personalized updates.</span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>

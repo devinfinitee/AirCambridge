@@ -61,8 +61,8 @@ export default function About() {
               Our Story: Precision, Passion, and Private Aviation
             </h1>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              Founded on precision and passion, AirCambridge Jet redefines private aviation by merging
-              world-class service with seamless travel experiences.
+              Founded on precision and passion, AirCambridge Jet redefines private aviation from our headquarters inside
+              MM2, Ikeja Airport in Lagos. We merge world-class service with seamless global mobility for discerning travelers.
             </p>
           </div>
         </section>
@@ -71,9 +71,9 @@ export default function About() {
           <div className="bg-card rounded-lg p-8 md:p-12 hover-elevate transition-all">
             <h2 className="font-serif text-3xl md:text-4xl font-bold mb-6">Our Mission</h2>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              To make luxury air travel as effortless and reliable as possible for every client. We believe
-              that exceptional service, uncompromising safety, and personalized attention should be the
-              standard, not the exception.
+              To make luxury air travel as effortless and reliable as possible for every client. From domestic charters and helicopter
+              shuttles to international passport concierge, we believe that exceptional service, uncompromising safety, and personalized
+              attention should be the standard, not the exception.
             </p>
           </div>
         </section>
