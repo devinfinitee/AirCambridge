@@ -15,11 +15,14 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-foreground text-white pt-10 pb-6">
+    <footer className="bg-foreground text-white pt-10 pb-6 animate-in fade-in-50 slide-in-from-bottom-1 duration-700">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           <div>
-            <AirCambridgeLogo showTagline className="mb-4" />
+            <AirCambridgeLogo
+              showTagline
+              className="mb-4 transition-all duration-400 ease-out will-change-transform hover:scale-[1.01]"
+            />
             <p className="text-white/80 text-sm mb-4">
               Your trusted partner for seamless air travel, helicopter charters, and global mobility solutions across Africa and the world.
             </p>

@@ -8,6 +8,7 @@ export default function Navigation() {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +16,15 @@ export default function Navigation() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Trigger a gentle entrance animation once on mount
+    const timeout = window.setTimeout(() => {
+      setHasMounted(true);
+    }, 50);
+
+    return () => window.clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
@@ -40,7 +50,14 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16 md:h-20 gap-2 md:gap-4">
           <Link href="/" data-testid="link-home" className="flex items-center min-w-0 flex-shrink overflow-hidden pr-2">
-            <AirCambridgeLogo showTagline className="transition-transform hover:scale-[1.02] md:hover:scale-[1.02]" />
+            <AirCambridgeLogo
+              showTagline
+              className={`transition-all duration-400 ease-out will-change-transform
+                ${hasMounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"}
+                ${isScrolled ? "md:scale-[0.97]" : "md:scale-100"}
+                hover:scale-[1.01] md:hover:scale-[1.01]
+              `}
+            />
           </Link>
 
           <div className="hidden md:flex items-center gap-8">

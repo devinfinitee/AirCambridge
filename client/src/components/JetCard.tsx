@@ -31,7 +31,10 @@ export default function JetCard({
   const displayRate = currency === 'USD' ? hourlyRate : hourlyRate * 1600;
   const currencySymbol = currency === 'USD' ? '$' : '₦';
   return (
-    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all cursor-pointer group h-full flex flex-col" data-testid={`card-jet-${id}`}>
+    <Card
+      className="overflow-hidden hover-elevate active-elevate-2 transition-all cursor-pointer group h-full flex flex-col animate-in fade-in-50 slide-in-from-bottom-2 duration-500"
+      data-testid={`card-jet-${id}`}
+    >
       <div className="aspect-video overflow-hidden">
         <img src={image} alt={name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
       </div>
