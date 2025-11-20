@@ -164,7 +164,7 @@ export default function HeroSlider() {
               asChild
               data-testid="button-explore-fleet"
             >
-              <Link href="/about">Explore Services</Link>
+              <Link href="/services">Explore Services</Link>
             </Button>
           </div>
         </div>

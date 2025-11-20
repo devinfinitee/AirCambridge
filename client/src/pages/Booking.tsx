@@ -21,11 +21,23 @@ export default function Booking() {
     destination: "",
     additionalNotes: "",
   });
+  const [passportFullName, setPassportFullName] = useState("");
+  const [passportDuration, setPassportDuration] = useState<"5" | "10" | "">("");
+  const [passportPages, setPassportPages] = useState<"32" | "64" | "">("");
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  const PASSPORT_PRICING_NGN: Record<string, number> = {
+    "5-32": 100000,
+    "5-64": 200000,
+    "10-32": 220000,
+    "10-64": 300000,
+  };
+
+  const PASSPORT_FAST_TRACK_FEE_NGN = 71020;
 
   useEffect(() => {
     if (formRef.current) {
@@ -137,6 +149,51 @@ From: ${fromLabel}
 To: ${toLabel}
 Additional Notes: ${formData.additionalNotes || 'None'}`;
     
+    openWhatsApp(message);
+  };
+
+  const getSelectedPassportKey = () => {
+    if (!passportDuration || !passportPages) return null;
+    return `${passportDuration}-${passportPages}`;
+  };
+
+  const getPassportPricing = () => {
+    const key = getSelectedPassportKey();
+    if (!key) return { base: 0, total: 0 };
+    const base = PASSPORT_PRICING_NGN[key] ?? 0;
+    const total = base + PASSPORT_FAST_TRACK_FEE_NGN;
+    return { base, total };
+  };
+
+  const handlePassportWhatsAppOrder = () => {
+    if (!passportFullName || !passportDuration || !passportPages) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter your full name and select passport duration and pages.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const { base, total } = getPassportPricing();
+
+    if (!base || !total) {
+      toast({
+        title: "Invalid Selection",
+        description: "Please select a valid passport option.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const message = `Hello, I would like to place a Passport Express order:
+
+Name: ${passportFullName}
+Passport type: ${passportDuration} years, ${passportPages} pages
+Base fee: ${formatCurrency(base, 'NGN')}
+Fast track, registration, processing & logistics fee: ${formatCurrency(PASSPORT_FAST_TRACK_FEE_NGN, 'NGN')}
+Total to pay: ${formatCurrency(total, 'NGN')}`;
+
     openWhatsApp(message);
   };
 
@@ -380,6 +437,96 @@ Additional Notes: ${formData.additionalNotes || 'None'}`;
                 * Prices are estimates per hour and may vary based on route, availability, and additional services.
                 Final pricing will be confirmed by our team via WhatsApp or email.
               </p>
+            </CardContent>
+          </Card>
+
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle className="text-xl md:text-2xl flex items-center gap-2">
+                <DollarSign size={24} />
+                Passport Express  b7 Direct Order
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                <div>
+                  <Label htmlFor="passportFullName">Full Name *</Label>
+                  <Input
+                    id="passportFullName"
+                    value={passportFullName}
+                    onChange={(e) => setPassportFullName(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="passportDuration">Passport Duration *</Label>
+                  <Select
+                    value={passportDuration}
+                    onValueChange={(value) => setPassportDuration(value as "5" | "10")}
+                  >
+                    <SelectTrigger id="passportDuration">
+                      <SelectValue placeholder="Select duration" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="5">5 years</SelectItem>
+                      <SelectItem value="10">10 years</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="passportPages">Passport Pages *</Label>
+                  <Select
+                    value={passportPages}
+                    onValueChange={(value) => setPassportPages(value as "32" | "64")}
+                  >
+                    <SelectTrigger id="passportPages">
+                      <SelectValue placeholder="Select pages" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="32">32 pages</SelectItem>
+                      <SelectItem value="64">64 pages</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="rounded-lg border p-4 bg-muted/40">
+                {(() => {
+                  const { base, total } = getPassportPricing();
+                  if (!base || !total) {
+                    return (
+                      <p className="text-sm text-muted-foreground">
+                        Select a passport duration and pages to see the total amount including fast tracking fee.
+                      </p>
+                    );
+                  }
+                  return (
+                    <div className="space-y-1 text-sm">
+                      <p>
+                        <span className="font-medium">Base fee:</span> {formatCurrency(base, 'NGN')}
+                      </p>
+                      <p>
+                        <span className="font-medium">Fast tracking, registration, processing & logistics:</span>{" "}
+                        {formatCurrency(PASSPORT_FAST_TRACK_FEE_NGN, 'NGN')}
+                      </p>
+                      <p className="font-semibold text-primary text-base mt-1">
+                        Total: {formatCurrency(total, 'NGN')}
+                      </p>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div>
+                <Button
+                  type="button"
+                  className="w-full md:w-auto"
+                  size="lg"
+                  onClick={handlePassportWhatsAppOrder}
+                >
+                  <MessageCircle className="mr-2" size={20} />
+                  Order Passport via WhatsApp
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
