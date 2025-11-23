@@ -36,6 +36,7 @@ export default function Navigation() {
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
     { path: "/booking", label: "Services" },
+    { path: "/passport-booking", label: "Passport" },
     { path: "/contact", label: "Contact" },
   ];
 

@@ -55,7 +55,11 @@ export default function QuickBookingWidget() {
       JSON.stringify({ from, to, serviceType })
     );
 
-    setLocation("/booking");
+    if (serviceType === "passport") {
+      setLocation("/passport-booking");
+    } else {
+      setLocation("/booking");
+    }
   };
 
   return (

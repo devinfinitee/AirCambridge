@@ -318,7 +318,7 @@ export default function Home() {
                   </li>
                 </ul>
                 <div className="flex flex-wrap gap-4">
-                  <Button size="lg" className="bg-black text-white hover:bg-black/90" onClick={() => setLocation("/booking")}>
+                  <Button size="lg" className="bg-black text-white hover:bg-black/90" onClick={() => setLocation("/passport-booking")}>
                     Request Express Passport
                   </Button>
                   <Button

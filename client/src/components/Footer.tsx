@@ -61,6 +61,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/passport-booking" className="text-white/80 hover:text-primary transition-colors">
+                  Passport
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-white/80 hover:text-primary transition-colors">
                   Contact
                 </Link>
@@ -82,7 +87,7 @@ export default function Footer() {
             <p className="text-sm text-white/80 mb-3">
               Stay updated with exclusive offers and aviation news.
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Input
                 placeholder="Your email"
                 value={email}

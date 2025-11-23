@@ -137,7 +137,7 @@ export default function Services() {
                 <Button
                   size="lg"
                   className="bg-black text-white hover:bg-black/90"
-                  onClick={() => setLocation("/booking")}
+                  onClick={() => setLocation("/passport-booking")}
                 >
                   Order Passport Express
                 </Button>
