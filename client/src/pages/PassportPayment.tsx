@@ -48,7 +48,7 @@ export default function PassportPayment() {
     const initPayment = async () => {
       try {
         const txRef = `AC-PASS-${Date.now()}`;
-        const redirectUrl = `${window.location.origin}/passport-payment`; // Flutterwave will redirect back here
+        const redirectUrl = `${window.location.origin}/passport-success`; // Flutterwave will redirect back here
 
         const response = await fetch(`${API_BASE_URL}/api/init-flutterwave`, {
           method: "POST",

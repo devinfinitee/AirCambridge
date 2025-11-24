@@ -11,6 +11,8 @@ import Services from "@/pages/Services";
 import Booking from "@/pages/Booking";
 import PassportBooking from "@/pages/PassportBooking";
 import PassportPayment from "@/pages/PassportPayment";
+import PassportSuccess from "@/pages/PassportSuccess";
+import PassportSuccessTest from "@/pages/PassportSuccessTest";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
@@ -23,6 +25,8 @@ function Router() {
       <Route path="/booking" component={Booking} />
       <Route path="/passport-booking" component={PassportBooking} />
       <Route path="/passport-payment" component={PassportPayment} />
+      <Route path="/passport-success" component={PassportSuccess} />
+      <Route path="/passport-success-test" component={PassportSuccessTest} />
       <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
