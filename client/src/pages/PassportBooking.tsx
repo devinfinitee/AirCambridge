@@ -4,9 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/locations";
+import { openWhatsApp } from "@/lib/emailjs";
 
 const PASSPORT_PRICING_NGN: Record<string, number> = {
   "5-32": 100000,
@@ -24,7 +24,6 @@ export default function PassportBooking() {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [duration, setDuration] = useState<"5" | "10" | "">("");
   const [pages, setPages] = useState<"32" | "64" | "">("");
-  const [, setLocation] = useLocation();
   const { toast } = useToast();
 
   const getSelectedKey = () => {
@@ -40,11 +39,11 @@ export default function PassportBooking() {
     return { base, total };
   };
 
-  const handleContinue = () => {
+  const handleWhatsAppOrder = () => {
     if (!fullName || !email || !phone || !dateOfBirth || !duration || !pages) {
       toast({
         title: "Missing Information",
-        description: "Please fill all required fields before continuing to payment.",
+        description: "Please fill all required fields before sending your Passport Express request.",
         variant: "destructive",
       });
       return;
@@ -60,20 +59,17 @@ export default function PassportBooking() {
       return;
     }
 
-    const order = {
-      fullName,
-      email,
-      phone,
-      dateOfBirth,
-      duration,
-      pages,
-      base,
-      fastTrackFee: PASSPORT_FAST_TRACK_FEE_NGN,
-      total,
-    };
+    const message = `Hello, I would like to place a Passport Express order:\n\n` +
+      `Name: ${fullName}\n` +
+      `Email: ${email}\n` +
+      `Phone: ${phone}\n` +
+      `Date of Birth: ${dateOfBirth}\n` +
+      `Passport type: ${duration} years, ${pages} pages\n` +
+      `Base fee: ${formatCurrency(base, "NGN")}\n` +
+      `Fast track, registration, processing & logistics fee: ${formatCurrency(PASSPORT_FAST_TRACK_FEE_NGN, "NGN")}\n` +
+      `Total to pay: ${formatCurrency(total, "NGN")}`;
 
-    sessionStorage.setItem("aircambridge-passport-order", JSON.stringify(order));
-    setLocation("/passport-payment");
+    openWhatsApp(message);
   };
 
   const { base, total } = getPricing();
@@ -87,7 +83,7 @@ export default function PassportBooking() {
             Passport Booking Details
           </h1>
           <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
-            Provide your details and preferred passport type. On the next page, you'll complete payment securely via Flutterwave.
+            Provide your details and preferred passport type, and our team will contact you on WhatsApp to finalize your Passport Express order.
           </p>
         </div>
 
@@ -195,9 +191,9 @@ export default function PassportBooking() {
               type="button"
               size="lg"
               className="w-full md:w-auto"
-              onClick={handleContinue}
+              onClick={handleWhatsAppOrder}
             >
-              Continue to Payment
+              Order Passport via WhatsApp
             </Button>
           </CardContent>
         </Card>
